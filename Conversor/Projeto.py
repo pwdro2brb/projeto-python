@@ -15,9 +15,12 @@ while True:
   if event == sg.WIN_CLOSED:
     break
   if event == 'Button1':
-    print(values['-Input-'])
+   Janela['-Text-'].update(values['-Input-'])
+
   if event == 'Button2':
     print('Você apertou outro botão')
+    Janela['Button2'].update(visible = False)
+    
   if event == '-Text-':
     print('Você apertou texto')
 
