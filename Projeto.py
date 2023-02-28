@@ -1,9 +1,17 @@
-import PySimpleGUI as Sg
+import PySimpleGUI as sg
 
 layout = [
-    [Sg.Text('Texto')],
-    [Sg.Button('Botão')],
-    [Sg.Input()]
+    [sg.Text('Texto'),sg.Spin(['Item 1', 'Item 2'])],
+    [sg.Button('Botão')],
+    [sg.Input()],
+    [sg.Text('Teste'), sg.Button('Apenas para teste')]
 ]
 
-Sg.Window('converter', layout).read()
+Janela = sg.Window('converter', layout)
+
+while True: 
+  event, values = Janela.read()
+
+  if event == sg.WIN_CLOSED:
+    break
+Janela.close()
