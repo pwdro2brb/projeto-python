@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
 
 def create_window(theme):
-    sg.theme('theme')
-    sg.set_options(font = 'Franklin 18', button_element_size=(3,3))
-    button_size =(6,3)
+    sg.theme(theme)  
+    sg.set_options(font='Franklin 18', button_element_size=(3, 3))
+    button_size = (6, 3)
 
     layout = [
         [sg.Text('Saída',
@@ -23,9 +23,10 @@ def create_window(theme):
     return sg.Window('Calculadora', layout)
 
 
-
 theme_menu = ['menu', ['LightBrown9','LightBrown9','LightBrown4','random']]
 Janela = create_window('dark')
+
+current_num = []
 
 while True:
     event, values = Janela.read()
@@ -35,4 +36,19 @@ while True:
     if event in theme_menu[1]:
         Janela.close()
         Janela = create_window(event)
+
+    if event in ['0','1','2','3','4','5','6','7','8','9','.']:
+        current_num.append(event)
+        num_string = ''.join(current_num)
+        print(event)
+
+    if event in ['/','-','+','*']:
+        print(event)
+
+    if event == 'Enter':
+        print(event)
+
+    if event == 'Limpar':
+        print(event)
+
 Janela.close() 
