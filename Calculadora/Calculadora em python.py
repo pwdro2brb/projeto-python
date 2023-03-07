@@ -6,7 +6,7 @@ def create_window(theme):
     button_size = (6, 3)
 
     layout = [
-        [sg.Text('Saída',
+        [sg.Text('',
          font='Franklin 26', 
          justification='right',
          expand_x=True, 
@@ -51,9 +51,14 @@ while True:
         print(full_operation)
 
     if event == 'Enter':
-        print(event)
+        full_operation.append(''.join(current_num))
+        resultado = eval(' '.join(full_operation))
+        Janela['-Text-'].update(resultado)
+        full_operation = []
 
     if event == 'Limpar':
-        print(event)
+       current_num = []
+       full_operation = []
+       Janela['-Text-'].update('')
 
 Janela.close() 
