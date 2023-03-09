@@ -8,9 +8,11 @@ def create_window():
      [sg.VPush()],
      [sg.Text('Tempo', font = 'Young 50', key = '-TEMPO-')],
      [   sg.Button('Começar', button_color = ('#FFFFFF','#FF0000'), border_width= 0, key =  '-ComeçoPara-'), 
-         sg.Button('Lap',button_color = ('#FFFFFF','#FF0000'), border_width= 0, key = '-lap-', visible = False)],
+         sg.Button('Voltas',button_color = ('#FFFFFF','#FF0000'), border_width= 0, key = '-Volta-', visible = False)],
+     [sg.Column([[]], key = '-Voltas-')],
      [sg.VPush()]
    ] 
+ 
   return sg.Window('Cronometro', 
          layout,
          size =(300,300),
@@ -33,9 +35,10 @@ while True:
             # De active até Pare
             active = False
             Janela['-ComeçoPara-'].update('Recomeçar')
-            Janela['-lap-'].update(visible =  False)
+            Janela['-Volta-'].update(visible =  False)
         else:
             #De Pare para Recomeçar
+
             if start_time > 0:
                 Janela.close
                 Janela = create_window()
@@ -46,12 +49,14 @@ while True:
              start_time = time()
              active = True
              Janela['-ComeçoPara-'].update('Pare')
-             Janela['-lap-'].update(visible = True)
+             Janela['-Volta-'].update(visible = True)
 
     if active:
-        elapsed_time = round(time() - start_time,1)
-        Janela['-TEMPO-'].update(elapsed_time)
+        eVoltased_time = round(time() - start_time,1)
+        Janela['-TEMPO-'].update(eVoltased_time)
 
+    if event == '-Volta-':
+       Janela.extend_layout(Janela['-Voltas-'], [[sg.Text('teste')]])
 
 
 Janela.close()
