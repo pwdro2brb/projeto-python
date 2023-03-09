@@ -24,6 +24,7 @@ def create_window():
 Janela = create_window()
 start_time = 0
 active = False
+quantidade_volta = 1
 
 while True:
     event, values = Janela.read(timeout = 10)
@@ -43,6 +44,7 @@ while True:
                 Janela.close
                 Janela = create_window()
                 start_time = 0
+                quantidade_volta = 1
 
             # De start até active
             else:
@@ -51,12 +53,13 @@ while True:
              Janela['-ComeçoPara-'].update('Pare')
              Janela['-Volta-'].update(visible = True)
 
+
     if active:
-        eVoltased_time = round(time() - start_time,1)
-        Janela['-TEMPO-'].update(eVoltased_time)
+        elapsed_time = round(time() - start_time,1)
+        Janela['-TEMPO-'].update(elapsed_time)
 
     if event == '-Volta-':
-       Janela.extend_layout(Janela['-Voltas-'], [[sg.Text('teste')]])
-
+       Janela.extend_layout(Janela['-Voltas-'], [[sg.Text(quantidade_volta), sg.VSeparator(), sg.Text(elapsed_time)]])
+       quantidade_volta += 1 
 
 Janela.close()
