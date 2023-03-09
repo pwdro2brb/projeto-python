@@ -8,7 +8,7 @@ layout = [
     [sg.VPush()],
     [sg.Text('Tempo', font = 'Young 50', key = '-TEMPO-')],
     [   sg.Button('Começar', button_color = ('#FFFFFF','#FF0000'), border_width= 0, key =  '-ComeçoPara-'), 
-        sg.Button('Lap',button_color = ('#FFFFFF','#FF0000'), border_width= 0, key = 'LAP')],
+        sg.Button('Lap',button_color = ('#FFFFFF','#FF0000'), border_width= 0, key = '-lap-', visible = False)],
     [sg.VPush()]
 ]
 
@@ -26,8 +26,17 @@ while True:
         break
 
     if event == '-ComeçoPara-':
-        start_time = time()
-        active = True
+        if active:
+            # De active até stop
+            active = False
+            Janela['-ComeçoPara-'].update('Reset')
+            Janela['-lap-'].update(visible =  False)
+        else:
+            # De start até active
+            start_time = time()
+            active = True
+            Janela['-ComeçoPara-'].update('Stop')
+            Janela['-lap-'].update(visible = True)
 
     if active:
         elapsed_time = round(time() - start_time,1)
