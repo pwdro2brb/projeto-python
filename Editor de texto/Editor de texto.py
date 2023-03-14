@@ -28,5 +28,11 @@ while True:
         break
 
     if event == 'Contador de palavras':
-        print('funcional um botão aí')
+       texto_cheio = values['-caixaDeTexto-']
+       texto_limpo = texto_cheio.replace('\n', ' ').split(' ')
+       conta_palavra = len(texto_limpo)
+       conta_caracter = len(''.join(texto_limpo))
+       sg.popup(conta_caracter,'Palavras')
+
+
 Janela.close()
