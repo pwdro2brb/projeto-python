@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from pathlib import Path
 
 smileys = [
    'feliz',[':)','xD',':D','<3'],
@@ -27,6 +28,16 @@ while True:
     if event == sg.WIN_CLOSED:
         break
 
+    if event == 'Abrir':
+        caminho_arquivo = sg.popup_get_file('Abrir', no_window= True)
+        if caminho_arquivo:
+            arquivo = Path(caminho_arquivo)
+            Janela['-caixaDeTexto-'].update(arquivo.read_text())
+            Janela['-documentoNome-'].update(caminho_arquivo.split('/')[-1])
+
+    if event == 'Salvar':
+        pass
+
     if event == 'Contador de palavras':
        texto_cheio = values['-caixaDeTexto-']
        texto_limpo = texto_cheio.replace('\n', ' ').split(' ')
@@ -36,7 +47,7 @@ while True:
 
     if event in smiley_events:
         texto_atual = values['-caixaDeTexto-']
-        novo_texto = texto_atual + '' + event
+        novo_texto = texto_atual + ' ' + event
         Janela['-caixaDeTexto-'].update(novo_texto)
 
 Janela.close()
