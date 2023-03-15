@@ -32,7 +32,11 @@ while True:
        texto_limpo = texto_cheio.replace('\n', ' ').split(' ')
        conta_palavra = len(texto_limpo)
        conta_caracter = len(''.join(texto_limpo))
-       sg.popup(conta_caracter,'Palavras')
+       sg.popup(f'Palavras {conta_palavra}\nCarácteres: {conta_caracter}')
 
+    if event in smiley_events:
+        texto_atual = values['-caixaDeTexto-']
+        novo_texto = texto_atual + '' + event
+        Janela['-caixaDeTexto-'].update(novo_texto)
 
 Janela.close()
