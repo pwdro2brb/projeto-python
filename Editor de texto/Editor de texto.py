@@ -36,7 +36,10 @@ while True:
             Janela['-documentoNome-'].update(caminho_arquivo.split('/')[-1])
 
     if event == 'Salvar':
-        pass
+        caminho_arquivo = sg.popup_get_file('Salvar como', no_window = True, save_as=True) + '.txt'
+        arquivo = (caminho_arquivo)
+        Path(caminho_arquivo).write_text(values['-caixaDeTexto-'])
+        Janela['-documentoNome-'].update(caminho_arquivo.split('/')[-1])
 
     if event == 'Contador de palavras':
        texto_cheio = values['-caixaDeTexto-']
