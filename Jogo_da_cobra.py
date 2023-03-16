@@ -6,7 +6,7 @@ numero_celula = 10
 tamanho_celula = Tamanho_campo/numero_celula
 
 #Maçã
-maça_pos = (2,4)
+maça_pos = (4,5)
 
 sg.theme('LightGreen3')
 Campo = sg.Graph(
@@ -28,6 +28,9 @@ while True:
     if event =='Up:38': print('Acima')
     if event =='Right:39': print('Direita')
     if event =='Down:40': print('Abaixo')
-    Campo.DrawRectangle( (100,100), (400,0),'red')
+
+    tl = maça_pos[0] * tamanho_celula, maça_pos[1]* tamanho_celula
+    br = tl[0] + tamanho_celula, tl[1] + tamanho_celula
+    Campo.DrawRectangle(tl, br,'red')
 
 Janela.close()
