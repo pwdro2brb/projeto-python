@@ -32,7 +32,7 @@ layout = [
 
 Janela = sg.Window('Jogo da cobra', layout, return_keyboard_events = True)
 
-Tempo_inicial = time()
+start_time = time()
 
 while True:
     event, values = Janela.read(timeout=10)
@@ -43,23 +43,25 @@ while True:
     if event =='Down:40': print('Abaixo')
 
     #Tempo para aparecer outra maçã
-    tempo_quando_começar = time() - Tempo_inicial
+    tempo_quando_começar = time() - start_time
     if tempo_quando_começar >= 0.5:
-        Campo.draw_rectangle(tl,br,'red')
+        start_time = time()
+        
+        #Atualiza a posição da cobra
+        nova_cabeça = (corpo_cobra[0][0] + direcao[0],corpo_cobra[0][1] + direcao[1])
+        corpo_cobra.insert(0, nova_cabeça)
+        corpo_cobra.pop()
 
-    #Atualiza a posição da cobra
-    nova_cabeça = (corpo_cobra[0][0] + direcao[0],corpo_cobra[0][1] + direcao[1])
-    corpo_cobra.insert(0, nova_cabeça)
-    corpo_cobra.pop()
+        #Desenha a maçã
+        tl, br = convert_pos_to_pixel(maça_pos) 
+        Campo.DrawRectangle(tl, br,'red')
 
-    #Desenha a maçã
-    tl, br = convert_pos_to_pixel(maça_pos) 
-    Campo.DrawRectangle(tl, br,'red')
+        Campo.draw_rectangle((0,0),(Tamanho_campo,Tamanho_campo), 'black')
 
-    #Desenha a cobra
-    for index, part in enumerate(corpo_cobra):
-        tl, br = convert_pos_to_pixel(part)
-        Cor = 'yellow' if index == 0 else 'green'
-        Campo.DrawRectangle(tl,br,Cor)
+        #Desenha a cobra
+        for index, part in enumerate(corpo_cobra):
+            tl, br = convert_pos_to_pixel(part)
+            Cor = 'yellow' if index == 0 else 'green'
+            Campo.DrawRectangle(tl,br,Cor)
 
 Janela.close()
