@@ -52,7 +52,7 @@ while True:
 
     #Tempo para aparecer outra maçã
     tempo_quando_começar = time() - start_time
-    if tempo_quando_começar >= 0.3:
+    if tempo_quando_começar >= 0.3: #Velocidade do jogo
         start_time = time()
 
         #Colisão com a maçâ
@@ -63,7 +63,17 @@ while True:
         #Atualiza a posição da cobra
         nova_cabeça = (corpo_cobra[0][0] + direcao[0],corpo_cobra[0][1] + direcao[1])
         corpo_cobra.insert(0, nova_cabeça)
-        corpo_cobra.pop()
+        if not comer_maca:
+            corpo_cobra.pop()
+        comer_maca = False
+
+        #Verifica morte
+        if not 0 <= corpo_cobra[0][0] <= numero_celula - 1 or \
+           not 0 <= corpo_cobra[0][1] <= numero_celula - 1 or \
+           corpo_cobra[0] in corpo_cobra[1:]:
+               sg.popup('Você morreu')
+               break
+               
 
         Campo.draw_rectangle((0,0),(Tamanho_campo,Tamanho_campo), 'black')
 
