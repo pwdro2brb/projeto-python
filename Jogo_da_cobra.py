@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from time import time
 
 def convert_pos_to_pixel(celula):
     tl = celula[0] * tamanho_celula, celula[1] * tamanho_celula
@@ -7,15 +8,16 @@ def convert_pos_to_pixel(celula):
 
 #Tamanho do campo do jogo
 Tamanho_campo = 400
-numero_celula = 10
+numero_celula = 20
 tamanho_celula = Tamanho_campo/numero_celula
 
 #Cobra
 corpo_cobra = [(4,4),(3,4),(2,4)]
 DIRECTIONS = {'left': (-1,0), 'right': (1,0), 'up':(0,1), 'down':(0,-1)}
+direcao = DIRECTIONS['up']
 
 #Maçã
-maça_pos = (0,1)
+maça_pos = (0,0)
 
 sg.theme('LightGreen3')
 Campo = sg.Graph(
@@ -30,6 +32,8 @@ layout = [
 
 Janela = sg.Window('Jogo da cobra', layout, return_keyboard_events = True)
 
+Tempo_inicial = time()
+
 while True:
     event, values = Janela.read(timeout=10)
     if event == sg.WIN_CLOSED: break
@@ -38,6 +42,17 @@ while True:
     if event =='Right:39': print('Direita')
     if event =='Down:40': print('Abaixo')
 
+    #Tempo para aparecer outra maçã
+    tempo_quando_começar = time() - Tempo_inicial
+    if tempo_quando_começar >= 0.5:
+        Campo.draw_rectangle(tl,br,'red')
+
+    #Atualiza a posição da cobra
+    nova_cabeça = (corpo_cobra[0][0] + direcao[0],corpo_cobra[0][1] + direcao[1])
+    corpo_cobra.insert(0, nova_cabeça)
+    corpo_cobra.pop()
+
+    #Desenha a maçã
     tl, br = convert_pos_to_pixel(maça_pos) 
     Campo.DrawRectangle(tl, br,'red')
 
