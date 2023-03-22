@@ -22,11 +22,14 @@ layout = [
    [sg.Canvas(key='-canvas-')]    
 ]
 
-Janela = sg.Window('App de gráfico', layout)
+Janela = sg.Window('App de gráfico', layout, finalize = True)
 
 #Matpotlib 
 figura = matplotlib.figure.Figure(figsize = (5,4))
 figura.add_subplot(111).plot([],[])
+figure_canvas_agg = FigureCanvasTkAgg(figura,Janela['-canvas-'].TKCanvas)
+figure_canvas_agg.draw()
+figure_canvas_agg.get_tk_widget().pack()
 
 while True:
     event, values = Janela.read()
