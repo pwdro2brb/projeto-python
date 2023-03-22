@@ -23,7 +23,11 @@ while True:
 
     if event == 'Enviar':
         novo_valor = values['-input-']
-        if novo_valor.isnumeric():
-            Janela['-Tabela-'].update([[1,10], [2,12], [3,0]])
+        if novo_valor.isnumeric() or \
+           novo_valor.isdecimal:
+            conteudo_tabela.append([len(conteudo_tabela) + 1,float(novo_valor)])
+            Janela['-Tabela-'].update(conteudo_tabela)
+            Janela['-input-'].update('')
+
 
 Janela.close()
