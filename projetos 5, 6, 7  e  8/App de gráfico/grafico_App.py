@@ -1,11 +1,16 @@
 import PySimpleGUI as sg 
 import matplotlib
-
 matplotlib.use('TkAgg')
-
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+def atualizar_figuras(data):
+    axes = figura.axes
+    x = [i[0] for i in data]
+    y = [int(i[1]) for i in data]
+    axes[0].plot(x,y,'r-')
+    figure_canvas_agg.draw()
+    figure_canvas_agg.get_tk_widget().pack()
 
 sg.theme('LightGreen7')
 
@@ -24,7 +29,7 @@ layout = [
 
 Janela = sg.Window('App de gráfico', layout, finalize = True)
 
-#Matpotlib 
+#Chamando o Matpotlib para criar o gráfico
 figura = matplotlib.figure.Figure(figsize = (5,4))
 figura.add_subplot(111).plot([],[])
 figure_canvas_agg = FigureCanvasTkAgg(figura,Janela['-canvas-'].TKCanvas)
@@ -43,6 +48,7 @@ while True:
             conteudo_tabela.append([len(conteudo_tabela) + 1,float(novo_valor)])
             Janela['-Tabela-'].update(conteudo_tabela)
             Janela['-input-'].update('')
+            atualizar_figuras(conteudo_tabela)
 
 
 Janela.close()
