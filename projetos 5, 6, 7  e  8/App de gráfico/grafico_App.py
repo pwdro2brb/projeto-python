@@ -1,4 +1,11 @@
 import PySimpleGUI as sg 
+import matplotlib
+
+matplotlib.use('TkAgg')
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
 
 sg.theme('LightGreen7')
 
@@ -11,10 +18,15 @@ layout = [
     expand_x = True,
     hide_vertical_scroll = True,
     key='-Tabela-')],
-   [sg.Input(key='-input-', expand_x=True), sg.Button('Enviar')]    
+   [sg.Input(key='-input-', expand_x=True), sg.Button('Enviar')],
+   [sg.Canvas(key='-canvas-')]    
 ]
 
 Janela = sg.Window('App de gráfico', layout)
+
+#Matpotlib 
+figura = matplotlib.figure.Figure(figsize = (5,4))
+figura.add_subplot(111).plot([],[])
 
 while True:
     event, values = Janela.read()
