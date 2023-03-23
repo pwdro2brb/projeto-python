@@ -1,9 +1,11 @@
 import PySimpleGUI as sg
 
-layout = [
-    []
-]
+coluna_controle = True
+coluna_imagem = sg.Column([[sg.Image('projetos 5, 6, 7  e  8\Editor de imagem\cross.jpg')]])
 
+layout = [
+    [coluna_imagem]
+]
 
 Janela =  sg.Window('Editor de imagem', layout)
 

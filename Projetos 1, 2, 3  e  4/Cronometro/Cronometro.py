@@ -4,7 +4,7 @@ from time import time
 def create_window():
   sg.theme('black')
   layout = [
-     [sg.Push(),sg.Image('Cronometro/cross.png',size =(10,10), pad = 0, enable_events=True, key = '-Fechar-')],
+     [sg.Push(),sg.Image('Projetos 1, 2, 3  e  4\Cronometro\cross.png',size =(10,10), pad = 0, enable_events=True, key = '-Fechar-')],
      [sg.VPush()],
      [sg.Text('Tempo', font = 'Young 50', key = '-TEMPO-')],
      [   sg.Button('Começar', button_color = ('#FFFFFF','#FF0000'), border_width= 0, key =  '-ComeçoPara-'), 
