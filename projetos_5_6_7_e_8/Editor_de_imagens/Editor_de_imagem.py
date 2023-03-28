@@ -3,6 +3,7 @@ from PIL import Image, ImageFilter, ImageOps
 from io import BytesIO
 
 def atualiza_imagem(original, blur, contraste, Emboss, Countor, flipx, flipy, Janela):
+    global image
     image = original.filter(ImageFilter.GaussianBlur(blur))
     image = image.filter(ImageFilter.UnsharpMask(contraste))
     
@@ -20,7 +21,7 @@ def atualiza_imagem(original, blur, contraste, Emboss, Countor, flipx, flipy, Ja
     
     Janela['-Imagem-'].update(data = bio.getvalue())
 
-caminho_imagem = 'projetos_5_6_7_e_8\Editor_de_imagens\imagem.PNG'
+caminho_imagem = sg.popup_get_file('Open',no_window=True)
 
 coluna_controle = sg.Column([
     [sg.Frame('Borrado', layout = [[sg.Slider(range = (0,10), orientation= 'h', key='-blur-')]])],
@@ -32,7 +33,7 @@ coluna_controle = sg.Column([
 coluna_imagem = sg.Column([[sg.Image(caminho_imagem, key='-Imagem-')]])
 
 layout = [
-    [coluna_controle, coluna_imagem]
+    [coluna_controle, coluna_imagem, sg.Button('Sair',key='-Sair-')]
 ]
 
 original = Image.open(caminho_imagem)
@@ -53,4 +54,12 @@ while True:
         values['-VirarY-'],
         Janela)   
     
+    if event == '-Salvar-':
+        salvar_caminho = sg.popup_get_file('Save', save_as = True, no_window = True) + '.png'
+        image.save(salvar_caminho, 'PNG')
+        sg.popup('Alteração da imagem salva')
+        
+    if event == '-Sair-':
+        Janela.close()
+        
 Janela.close()
