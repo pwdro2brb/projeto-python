@@ -4,8 +4,9 @@ import base64
 from io import BytesIO
 from PIL import Image
 
-from pygame import mixer
+from pygame import mixer, time
 mixer.init()
+clock = time.Clock()
 
 def base64_image_import(path):
     image = Image.open(path)
@@ -19,6 +20,11 @@ path = sg.popup_get_file('Open', no_window=True)
 nome_som = path.split('/')[-1].split('.')[0]
 song = mixer.Sound(path)
 
+#temporizador
+Tamanho_som = int(song.get_length())
+time_since_start = 0
+pause_amount = 0
+playing = False
 
 sg.theme('reddit')
 
@@ -34,7 +40,7 @@ play_layout = [
         sg.Push(),
     ],
     [sg.VPush()],
-    [sg.Progress(100, size=(50,50), key='-progresso-')],
+    [sg.Progress(Tamanho_som, size=(50,50), key='-progresso-')],
 ]
 
 volume_layout = [
@@ -53,13 +59,22 @@ while True:
     event, values = Janela.read(timeout=1)
     if event == sg.WIN_CLOSED:
         break
+    
+    if playing:
+        time_since_start = time.get_ticks()
+        Janela['-progresso-'].update((time_since_start - pause_amount) // 1000)
+    
     if event == '-play-':
+        playing = True
+        pause_amount += time.get_ticks() - time_since_start
         if mixer.get_busy() == False:   
             song.play()
         else:
             mixer.unpause()
+            
     if event == '-pausa-':
         mixer.pause()
-    song.set_volume(values['-Volume-'])            
+        playing = False
+    song.set_volume(values['-Volume-'] / 100)            
     
 Janela.close()
