@@ -17,7 +17,8 @@ def base64_image_import(path):
 #Importa o som
 path = sg.popup_get_file('Open', no_window=True)
 nome_som = path.split('/')[-1].split('.')[0]
-print(nome_som)
+song = mixer.Sound(path)
+
 
 sg.theme('reddit')
 
@@ -38,7 +39,7 @@ play_layout = [
 
 volume_layout = [
     [sg.VPush()],
-    [sg.Push(),sg.Slider(range = (0,100), default_value = 100, orientation='h', key='Volume'),sg.Push()],
+    [sg.Push(),sg.Slider(range = (0, 100), default_value = 100, orientation='h', key='-Volume-'),sg.Push()],
     [sg.VPush()],
     ]
 
@@ -49,8 +50,16 @@ layout = [
 Janela = sg.Window('toca_música', layout)
 
 while True:
-    event, values = Janela.read()
+    event, values = Janela.read(timeout=1)
     if event == sg.WIN_CLOSED:
         break
+    if event == '-play-':
+        if mixer.get_busy() == False:   
+            song.play()
+        else:
+            mixer.unpause()
+    if event == '-pausa-':
+        mixer.pause()
+    song.set_volume(values['-Volume-'])            
     
 Janela.close()
