@@ -4,6 +4,9 @@ import base64
 from io import BytesIO
 from PIL import Image
 
+from pygame import mixer
+mixer.init()
+
 def base64_image_import(path):
     image = Image.open(path)
     buffer = BytesIO()
@@ -11,21 +14,26 @@ def base64_image_import(path):
     b64 = base64.b64encode(buffer.getvalue())
     return b64
 
+#Importa o som
+path = sg.popup_get_file('Open', no_window=True)
+nome_som = path.split('/')[-1].split('.')[0]
+print(nome_som)
+
 sg.theme('reddit')
 
 play_layout = [
     [sg.VPush()],
-    [sg.Push(),sg.Text('Nome do som', font = 'Arial 20'),sg.Push],
+    [sg.Text(nome_som, font = 'Arial 20')],
     [sg.VPush()],
     [
         sg.Push(),
-        sg.Button(image_data = base64_image_import('projetos_9_ao_12\Tocador_de_música\Play.png'), button_color = 'white',border_width = 0),
+        sg.Button(image_data = base64_image_import('projetos_9_ao_12\Tocador_de_música\Play.png'), button_color = 'white',border_width = 0, key='-play-'),
         sg.Text(' '),
-        sg.Button(image_data = base64_image_import('projetos_9_ao_12\Tocador_de_música\Pausar.png'), button_color = 'white',border_width = 0),
+        sg.Button(image_data = base64_image_import('projetos_9_ao_12\Tocador_de_música\Pausar.png'), button_color = 'white',border_width = 0, key='-pausa-'),
         sg.Push(),
     ],
     [sg.VPush()],
-    [sg.Progress(100, size=(50,50))],
+    [sg.Progress(100, size=(50,50), key='-progresso-')],
 ]
 
 volume_layout = [
