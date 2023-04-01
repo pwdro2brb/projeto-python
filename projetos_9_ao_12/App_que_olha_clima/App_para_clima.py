@@ -1,4 +1,20 @@
 import PySimpleGUI as sg
+from bs4 import BeautifulSoup as bs
+import requests
+
+def get_weater_data(location):
+    url = f'https://www.google.com/search?q=wheater+{location.replace(" ","")}'
+    session = requests.Session()
+    session.headers['User-agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
+    Html = session.get(url)
+    
+    soup = bs(Html.text, 'html.parser')
+    name = soup.find("div", attrs={'id':'wob_loc'}).text
+    time = soup.find('div', attrs={'id':'wob_dts'}).text
+    wheather = soup.find('span', attrs={'id':'wob_dc'}).text
+    temp = soup.find('span', attrs={'id':'wob_tm'}).text
+    return name, time, wheather, temp 
+
 sg.theme('reddit')
 
 Coluna_imagem = sg.Column([[sg.Image(key = '-Imagem-', background_color='#FFFFFF')]])
@@ -21,9 +37,10 @@ while True:
         break
     
     if event == 'Entrar':
-        Janela['-Localizacao-'].update('test', visible = True)
-        Janela['-Tempo-'].update('test', visible = True)
-        Janela['-Temp-'].update('test', visible = True)
+        name, time, wheather, temp = get_weater_data(values['-Input-'])
+        Janela['-Localizacao-'].update(name, visible = True)
+        Janela['-Tempo-'].update(time, visible = True)
+        Janela['-Temp-'].update(temp, visible = True)
         Janela['-Imagem-'].update('projetos_9_ao_12\App_que_olha_clima\Imagens\Gelado.png')
 
 Janela.close()
