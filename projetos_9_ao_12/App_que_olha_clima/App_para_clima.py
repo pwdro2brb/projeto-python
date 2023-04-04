@@ -11,9 +11,9 @@ def get_weater_data(location):
     soup = bs(Html.text, 'html.parser')
     name = soup.find("div", attrs={'id':'wob_loc'}).text
     time = soup.find('div', attrs={'id':'wob_dts'}).text
-    wheather = soup.find('span', attrs={'id':'wob_dc'}).text
+    weather = soup.find('span', attrs={'id':'wob_dc'}).text
     temp = soup.find('span', attrs={'id':'wob_tm'}).text
-    return name, time, wheather, temp 
+    return name, time, weather, temp 
 
 sg.theme('reddit')
 
@@ -37,10 +37,33 @@ while True:
         break
     
     if event == 'Entrar':
-        name, time, wheather, temp = get_weater_data(values['-Input-'])
+        name, time, weather, temp = get_weater_data(values['-Input-'])
         Janela['-Localizacao-'].update(name, visible = True)
-        Janela['-Tempo-'].update(time, visible = True)
-        Janela['-Temp-'].update(temp, visible = True)
+        Janela['-Tempo-'].update(time.split(' ')[0], visible = True)
+        Janela['-Temp-'].update(f'{temp} \u2103 ({weather})', visible = True)
+        
+        #Sol
+    if weather in ('Sol', 'Ensolarado', 'Céu aberto', 'Céu limpo com poucas nuvens', 'Maior parte ensolarado'):
+        Janela['-Imagem-'].update('projetos_9_ao_12\App_que_olha_clima\Imagens\sol.png')
+
+        #Parte ensolarado Sol
+    if weather in ('Parcialmente Ensolarado', 'Maior parte Ensolarado', 'Parcialmente nublado', 'Maior parte nublado', 'Nublado', 'Encoberto'):
+        Janela['-Imagem-'].update('projetos_9_ao_12\App_que_olha_clima\Imagens\inublado.png')
+
+        #Chuva
+    if weather in ('Chuva', 'Possibilidade de chuva', 'Chuva leve', 'Chuvas', 'Chuvas dispersas', 'Chuva e neve', 'Granizo'):
+        Janela['-Imagem-'].update('projetos_9_ao_12\App_que_olha_clima\Imagens\chuva.png')
+
+        #trovão
+    if weather in ('Tempestades esparsas', 'Possibilidade de tempestade', 'Tempestade', 'Trovoada', 'Possibilidade de tempestade'):
+        Janela['-Imagem-'].update('projetos_9_ao_12\App_que_olha_clima\Imagens\tempestade.png')
+
+        #neblina
+    if weather in ('Névoa', 'Poeira', 'Neblina', 'Fumaça', 'Neblina', 'Neve soprada'):
+        Janela['-Imagem-'].update('projetos_9_ao_12\App_que_olha_clima\Imagens\nevoeiro.png')
+
+        #neve
+    if weather in ('Garoa congelante', 'Possibilidade de neve', 'Aguaneve', 'Neve', 'Gelado', 'Neve pesada'):
         Janela['-Imagem-'].update('projetos_9_ao_12\App_que_olha_clima\Imagens\Gelado.png')
 
 Janela.close()
