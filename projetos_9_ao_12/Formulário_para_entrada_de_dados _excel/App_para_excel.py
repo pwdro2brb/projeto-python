@@ -1,7 +1,11 @@
 import PySimpleGUI as sg
 import pandas as pd
 
+
 sg.theme('DarkTeal4')
+
+EXCEL_FILE='projetos_9_ao_12\Formulário_para_entrada_de_dados _excel\Testes_para_codigo.xlsx', 'projetos_9_ao_12\Formulário_para_entrada_de_dados _excel\~$Testes_para_codigo.xlsx'
+df = pd.read_excel(EXCEL_FILE)
 
 layout = [
     [sg.Text('Por favor preencha os seguintes campos: ')],
@@ -25,10 +29,12 @@ Janela = sg.Window('App para receber dados daqui e enviar para o excel', layout)
 
 while True:
     event, values = Janela.read()
-    if event == sg.WIN_CLOSED or 'sair':
+    if event == sg.WIN_CLOSED:
         break
     if event == 'Submit':
-        print(event,values)
+        df = df._append(values, ignore_index=True)
+        df.to_excel(EXCEL_FILE, index=False)
+        sg.popup('Dados salvados!!!')
 
 Janela.close()
 
