@@ -22,18 +22,21 @@ while True:
     event, values = janela.read()
     if event == sg.WIN_CLOSED or event == 'Cancelar':
         break
-    if event == 'Ok':       
-        voce_maior = int(values['-Maiúsculo-'])
-        Maiúsculo = random.sample(string.ascii_uppercase, voce_maior)
-        voce_menor = int(values['-Minúsculo-'])
-        Minúsculo = random.sample(string.ascii_lowercase, voce_menor)
-        voce_núm = int(values['-Digito-'])
-        digitos = random.sample(string.digits, voce_núm)
-        voce_simb = int(values['-Simbolo-'])
-        simbolos = random.sample(string.punctuation, voce_simb)
+    if event == 'Ok': 
+        try:      
+            voce_maior = int(values['-Maiúsculo-'])
+            Maiúsculo = random.sample(string.ascii_uppercase, voce_maior)
+            voce_menor = int(values['-Minúsculo-'])
+            Minúsculo = random.sample(string.ascii_lowercase, voce_menor)
+            voce_núm = int(values['-Digito-'])
+            digitos = random.sample(string.digits, voce_núm)
+            voce_simb = int(values['-Simbolo-'])
+            simbolos = random.sample(string.punctuation, voce_simb)
 
-        total = Maiúsculo+Minúsculo+digitos+simbolos
-        total = random.sample(total, len(total))
-        total = ''.join(total)
-        print(total)
+            total = Maiúsculo+Minúsculo+digitos+simbolos
+            total = random.sample(total, len(total))
+            total = ''.join(total)
+            janela['-Passar-'].update(total)
+        except ValueError:
+           janela['-Passar-'].update('Sem um número válido') 
 janela.close()
